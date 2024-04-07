@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import RouterDom from '@/router/index.tsx'
-import '@/sass/normalize.css'
 import '@/sass/index.scss'
 import 'virtual:uno.css'
 import { ConfigProvider } from 'antd'

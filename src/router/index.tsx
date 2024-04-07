@@ -16,13 +16,9 @@ const RouterDom: FC = (...arg) => {
   return <RouterProvider router={router} {...arg} />
 }
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LoginPage />,
-  },
   { path: '/login', element: <LoginPage /> },
   {
-    path: '/home',
+    path: '/',
     element: <MyLayout />,
     children: [
       {
