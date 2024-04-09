@@ -13,11 +13,16 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "antd": "^5.16.1",
+    "ky": "^1.2.3",
+    "mobx": "^6.12.3",
+    "mobx-react": "^9.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-syntax-decorators": "^7.24.1",
     "@types/node": "^20.12.4",
     "@types/nprogress": "^0.2.3",
     "@types/react": "^18.2.66",

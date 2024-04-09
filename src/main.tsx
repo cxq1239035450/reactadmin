@@ -4,7 +4,8 @@ import RouterDom from '@/router/index.tsx'
 import '@/sass/index.scss'
 import 'virtual:uno.css'
 import { ConfigProvider } from 'antd'
-
+import { Provider } from 'mobx-react'
+import rootStore from '@/store/index'
 const config = {
   components: {
     Breadcrumb: {
@@ -18,9 +19,11 @@ const config = {
   },
 }
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={rootStore}>
     <ConfigProvider theme={config}>
       <RouterDom />
     </ConfigProvider>
-  </React.StrictMode>
+  </Provider>
+  // </React.StrictMode>
 )

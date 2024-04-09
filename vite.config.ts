@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import UnoCSS from 'unocss/vite'
@@ -13,10 +13,16 @@ import type { ConfigEnv, UserConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
+  const { VITE_DROP_CONSOLE } = loadEnv(mode, process.cwd())
+
   console.log(mode, 'mode')
 
   const config = {
     plugins: [
+      // 添加装饰器语法的解析插件
+      // '@babel/plugin-syntax-decorators',
+      // // 添加装饰器转换插件
+      // ['@babel/plugin-proposal-decorators', { legacy: true }],
       react(),
       UnoCSS(),
       AutoImport({
@@ -42,6 +48,34 @@ export default ({ mode }: ConfigEnv) => {
         '@': path.resolve(__dirname, './src/'),
       },
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
+    },
+    build: {
+      // target: 'modules',
+      target: 'esnext',
+      outDir: 'dist',
+      assetsDir: './src/assets/',
+      // TODO:可能需要去掉 minify否则图片路径无法加载成功
+      // minify: 'terser', // 混淆器
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          manualChunks: {
+            // lodashES: ['lodash-es'],
+            antDesign: ['antd'],
+          },
+        },
+      },
+      terserOptions: {
+        compress: {
+          // 根据官网: 防止chrome出现性能问题
+          keep_infinity: true,
+          //生产环境时移除console
+          drop_console: VITE_DROP_CONSOLE === 'true',
+        },
+      },
+      sourcemap: false,
     },
   }
   return defineConfig(config)
