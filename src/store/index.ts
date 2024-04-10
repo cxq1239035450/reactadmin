@@ -14,11 +14,4 @@ Object.keys(files).forEach(async path => {
   ;(RootStore.prototype as any)[fileName] = await files[path]()
 })
 
-// class RootStore {
-//   constructor(modules: Record<string, any>) {
-//     for (const key in modules) {
-//       ;(this as any)[key] = modules[key]
-//     }
-//   }
-// }
 export default new RootStore()

@@ -1,5 +1,5 @@
 import ky from 'ky'
-import { responseType, optionsType, kyOptionsType } from '@/type/request'
+import { responseType, optionsType } from '@/type/request'
 
 const baseURL = import.meta.env.VITE_BASE_URL // api的base_url
 

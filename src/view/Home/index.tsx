@@ -1,10 +1,14 @@
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { Component, ReactNode } from 'react'
 
 @inject('store')
-class homePage extends Component {
+@observer
+class HomePage extends Component {
+  componentDidMount(): void {
+    console.log(this.props)
+  }
   render(): ReactNode {
     return <div></div>
   }
 }
-export default homePage
+export default HomePage

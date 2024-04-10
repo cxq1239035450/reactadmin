@@ -19,11 +19,14 @@ export default ({ mode }: ConfigEnv) => {
 
   const config = {
     plugins: [
-      // 添加装饰器语法的解析插件
-      // '@babel/plugin-syntax-decorators',
-      // // 添加装饰器转换插件
-      // ['@babel/plugin-proposal-decorators', { legacy: true }],
-      react(),
+      react({
+        babel: {
+          parserOpts: {
+            //开启装饰器  开启处于提议状态的语法
+            plugins: ['decorators-legacy'],
+          },
+        },
+      }),
       UnoCSS(),
       AutoImport({
         imports: ['react', 'react-router-dom'],
@@ -64,6 +67,7 @@ export default ({ mode }: ConfigEnv) => {
           manualChunks: {
             // lodashES: ['lodash-es'],
             antDesign: ['antd'],
+            antDesignIcon: ['@ant-design'],
           },
         },
       },
@@ -72,6 +76,7 @@ export default ({ mode }: ConfigEnv) => {
           // 根据官网: 防止chrome出现性能问题
           keep_infinity: true,
           //生产环境时移除console
+          drop_debugger: VITE_DROP_CONSOLE === 'true',
           drop_console: VITE_DROP_CONSOLE === 'true',
         },
       },

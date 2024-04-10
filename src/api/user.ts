@@ -7,5 +7,6 @@ export function getUserInfo(data: any) {
     params: {
       id: 12345,
     },
+    data: data,
   })
 }
