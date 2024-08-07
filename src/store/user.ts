@@ -8,8 +8,11 @@ class CounterStore {
   async getUserInfoStore(data: any) {
     // 异步操作
     try {
-      const resData = await getUserInfo(data)
-      this.info = resData
+      // const resData = await getUserInfo(data)
+      this.info = {
+        userName:'测试'
+      }
+      console.log('==================',data)
     } catch {
       return Promise.reject(new Error('获取用户信息失败'))
     }

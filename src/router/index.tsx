@@ -7,6 +7,9 @@ import 'nprogress/nprogress.css'
 import MyLayout from '@/components/layout'
 import LoginPage from '@/view/login'
 import HomePage from '@/view/home'
+import asyncRouters from "@/router/asyncRouters.tsx";
+import CounterStore from '@/store/user'
+import {reaction} from "mobx";
 
 const RouterDom: FC = (...arg) => {
   useEffect(() => {
@@ -16,10 +19,15 @@ const RouterDom: FC = (...arg) => {
       nprogress.start()
     }
   })
+  reaction(() => CounterStore.info, (newV)=>{
+    console.log(newV)
+    router.routes.push(...asyncRouters)
+  })
+
   return <RouterProvider router={router} {...arg} />
 }
 function lazyImportant(
-  importComponent: () => Promise<{ default: FC<any> }>
+  importComponent: () => Promise<{ default: FC }>
 ): FC {
   const LazyLoadComponent = lazy(importComponent)
   return () => (
