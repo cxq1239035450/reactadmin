@@ -3,20 +3,10 @@ import { Input, Button, Form, type FormProps, Select } from 'antd'
 type FieldType = {
   username?: string
   password?: string
-  remember?: string
 }
 
 const LoginPage: FC = () => {
   const provinceData: string[] = []
-  const selectBefore = (
-    <Select
-      defaultValue="http://"
-      options={provinceData.map(province => ({
-        label: province,
-        value: province,
-      }))}
-    ></Select>
-  )
 
   const onFinish: FormProps<FieldType>['onFinish'] = values => {
     console.log('Success:', values)
@@ -28,21 +18,39 @@ const LoginPage: FC = () => {
   return (
     <div id="loginPage">
       <div className="card">
-        <h1>Login Page</h1>
+        <h1 className='title'>Login Page</h1>
         <Form
           name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
+          initialValues={{
+            username: "",
+            password: "",
+            remember:true
+          }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Input addonBefore={selectBefore} className="mb-16px" />
+          <Form.Item
+          name="username"
+          rules={[{ required: true, message: '请输入账号' }]}
+          >
+            <Input/>
+          </Form.Item>
 
-          <Input />
-          <Button className="loginBtn">登陆/注册</Button>
+          <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入密码',
+                },
+              ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item name="remember">
+            <Button type="primary" htmlType="submit" className="loginBtn">登陆/注册</Button>
+          </Form.Item>
           <div className="mt-30px ft-12">
             注册或登录即代表您同意《用户协议》和《隐私协议》
           </div>

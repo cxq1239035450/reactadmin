@@ -1,13 +1,13 @@
 import { FC, useEffect, lazy, Suspense } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from '@/components/errorPage'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import MyLayout from '@/components/layout'
-import LoginPage from '@/view/Login'
-import HomePage from '@/view/Home'
-import Fun from '@/view/Fun'
+import LoginPage from '@/view/login'
+import HomePage from '@/view/home'
+
 const RouterDom: FC = (...arg) => {
   useEffect(() => {
     nprogress.done()
@@ -28,9 +28,9 @@ function lazyImportant(
     </Suspense>
   )
 }
-const LazyFun = lazyImportant(() => import('@/view/Fun'))
+const LazyFun = lazyImportant(() => import('@/view/fun'))
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   { path: '/login', element: <LoginPage /> },
   {
     path: '/',
