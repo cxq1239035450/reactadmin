@@ -8,6 +8,7 @@ import MyLayout from '@/components/layout'
 import LoginPage from '@/view/login'
 import HomePage from '@/view/home'
 import asyncRouters from "@/router/asyncRouters.tsx";
+import ChristmasTree from '@/view/christmasTree'
 import CounterStore from '@/store/user'
 import {reaction} from "mobx";
 
@@ -53,6 +54,10 @@ const router = createHashRouter([
         element: <LazyFun />,
       },
     ],
+  },
+  {
+    path: '/christmasTree',
+    element: <ChristmasTree />,
   },
   {
     path: '*',
