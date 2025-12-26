@@ -23,7 +23,7 @@ const ChristmasTree = () => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio); // 适配高清屏幕
-    document.body.appendChild(renderer.domElement);
+    threetRef.current?.appendChild(renderer.domElement);
 
     // 2. 添加轨道控制器（鼠标交互）
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -33,21 +33,27 @@ const ChristmasTree = () => {
     controls.autoRotateSpeed = 0.3; // 自动旋转速度
     controls.minDistance = 5;  // 最小距离：相机最多靠近目标点到 5 单位（放大上限）
     controls.maxDistance = 50; // 最大距离：相机最多远离目标点到 50 单位（缩小下限）
+    controls.minPolarAngle = Math.PI / 4; // 最小垂直角度：限制相机不能低于 45°
+    controls.maxPolarAngle = Math.PI / 2; // 最大垂直角度：限制相机不能高于 90°
     controls.enableZoom = true; // 允许缩放（默认 true，可省略）
 
     // 3. 创建星云背景（半透明渐变平面）
     function createNebula() {
       // 创建一个超大平面，覆盖整个视野
-      const geometry = new THREE.PlaneGeometry(200, 200);
+      const geometry = new THREE.SphereGeometry(10, 64, 32);
       // 渐变材质：从中心蓝色渐变到边缘黑色，半透明
-      const material = new THREE.MeshBasicMaterial({
-        color: 0x1E90FF,
-        transparent: true,
-        opacity: 0.15,
-        side: THREE.DoubleSide // 双面渲染
+      const glassMaterial  = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff, // 玻璃颜色（白色=无色透明，可改为淡蓝/淡绿模拟有色玻璃）
+        roughness: 0.02, // 粗糙度：0=完全光滑（镜面），0.02 模拟轻微杂质
+        metalness: 0.05, // 金属度：0=非金属，0.05 增强反射质感
+        transmission: 0.98, // 透射率：0=不透明，1=完全透明（玻璃建议 0.9~0.98）
+        ior: 1.5, // 折射率：玻璃的标准折射率（1.5~1.6），越高折射越明显
+        transparent: true, // 开启透明
+        side: THREE.DoubleSide, // 双面渲染（避免球体内部看不到）
+        envMapIntensity: 1.2 // 环境贴图强度：增强反射/折射效果
       });
-      const nebula = new THREE.Mesh(geometry, material);
-      nebula.position.z = -100; // 放在相机后方，作为背景
+      const nebula = new THREE.Mesh(geometry, glassMaterial);
+      nebula.position.z = 0; // 放在相机后方，作为背景
       scene.add(nebula);
     }
 
@@ -157,7 +163,7 @@ const ChristmasTree = () => {
     createStars(5000); // 生成 5000 颗星星（可调整数量）
     animate();
   }, []); // 空依赖数组意味着这个effect只在组件挂载时运行一次
-
-  return <div ref={threetRef} style={{ width: '100%', height: '100vh' }} />;
+  
+  return <div ref={threetRef} style={{ width: '100%', height: '100%',overflow: 'hidden' }} />;
 };
 export default ChristmasTree

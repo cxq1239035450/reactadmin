@@ -9,7 +9,7 @@ import Inspect from 'vite-plugin-inspect'
 import AutoImport from 'unplugin-auto-import/vite'
 // import Components from 'unplugin-react-components/vite'
 // import { AntdResolver } from 'unplugin-react-components'
-import type { ConfigEnv, UserConfig } from 'vite'
+import type { ConfigEnv } from 'vite'
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
@@ -81,6 +81,14 @@ export default ({ mode }: ConfigEnv) => {
         },
       },
       sourcemap: false,
+    },
+    css: {
+      // 解决sass某些api将在2.0.0版本后弃用，出现的警告
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
     },
   }
   return defineConfig(config)
